@@ -39,7 +39,7 @@ class DashboardController extends Controller
 	
 	public function widget_preview()
     {
-		$style = get_option('widget_style','modern');
+        $style = get_option('widget_style','modern');
 		return view("widgets/$style/widget-preview");	
     }
 	

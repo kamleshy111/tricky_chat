@@ -247,5 +247,18 @@ class GuestController extends Controller
         
 		return redirect()->back()->with('success', _lang('Your Message Send Sucessfully'));	
 	}
+
+	/*
+	* get the status base on operator id and department id
+	*/
+
+	public function get_operator_status(Request $request, $operator_id=0, $department_id=0)
+	{
+		$userId = $operator_id;
+		$department = $department_id;
+		$result = get_operator_status($userId, $department);
+		return response()->json(['result'=>'success', 'data'=>$result]);
+
+	}
 	
 }

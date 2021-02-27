@@ -51,7 +51,23 @@
 			display: block; /* For Firefox */
 			color: {{ get_option('secondary_color','#263238') }};
 		}
-		@if(\Session::get("guest_id") != '')
+		.offline-bnt {
+		    position: absolute;
+		    top: -5px;
+		    right: -5px;
+		    width: 16px;
+		    height: 16px;
+		    background: url("http://localhost/tricky_chat/public/images/offline.png") no-repeat;
+		}
+		.online-bnt {
+		    position: absolute;
+		    top: -5px;
+		    right: -5px;
+		    width: 16px;
+		    height: 16px;
+		    background: url("http://localhost/tricky_chat/public/images/online.png") no-repeat;
+		}
+				@if(\Session::get("guest_id") != '')
 			.modern-widget{
 				display: block;
 			}
@@ -74,6 +90,7 @@
     <!--Start Widget-->
 	<div class="panel panel-default tricky_chat_widget modern-widget">
 		<div class="panel-heading">
+			<span id="operator_status" class="offline-bnt"></span>
 		    <i class="far fa-comment"></i>&nbsp; {!! get_option('heading_text',_lang('Live Chat')) !!}
 		    <a href="#" class="pull-right chat-expand"><i class="far fa-times-circle"></i></a>
 			

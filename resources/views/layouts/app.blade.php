@@ -140,12 +140,12 @@
 					   </ul>
 					</li>-->
 					@if(Auth::user()->user_type == "admin")
-					<?php /*
-					@if(get_option('offline_mode','no') == "no")
+					
+					<?php /*@if(get_option('offline_mode','no') == "no")
 						<li><a href="{{ url('administration/toggle_offline_mode') }}" aria-expanded="false"><i class="mdi-communication-dnd-on"></i>&nbsp;<span class="menu-title">{{ _lang('Enable Offline Mode') }}</span></a></li>
 					@else
 						<li style="background:#E91E63"><a href="{{ url('administration/toggle_offline_mode') }}" aria-expanded="false"><i class="mdi-communication-dnd-on"></i>&nbsp;<span class="menu-title">{{ _lang('Disable Offline Mode') }}</span></a></li>
-					@endif*/ ?>
+					@endif */ ?>
 					<li>
 					   <a href="#" aria-expanded="false"><i class="mdi-hardware-phonelink"></i>&nbsp;<span class="menu-title">{{ _lang('Widgets') }}</span> <span class="glyphicon arrow"></span></a>
 					   <ul aria-expanded="false" class="collapse">

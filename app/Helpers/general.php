@@ -86,6 +86,24 @@ if ( ! function_exists('online_operator')){
 	}
 }
 
+if ( ! function_exists('get_operator_status')){
+	function get_operator_status($userId = 0, $department = 0)
+	{
+		date_default_timezone_set(get_option('timezone'));
+		$now = date("Y-m-d H:i:s");
+		$interval = get_option('user_tracking_refresh_rate')+2;
+
+		$query = DB::select("SELECT users.id
+		FROM users LEFT JOIN departments ON users.department_id=departments.id
+		WHERE users.id = '". $userId ."' and users.department_id = '". $department ."' and users.last_activity > DATE_SUB('$now', INTERVAL $interval SECOND)");
+		if (!empty($query)) {
+			return "online";
+		} else {
+			return "offline";
+		}
+	}
+}
+
 if ( ! function_exists('online_guest_count')){
 	function online_guest_count()
 	{

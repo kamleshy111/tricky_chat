@@ -73,7 +73,13 @@
             </div>
         </div>
             
-	</div>	
+	</div>
+<!-- widget box -->
+<div class="col-md-12" style="margin: 15px">
+	<h3>Total visitor on map</h3>
+	<!--The div element for the map -->
+    <div id="map"></div>
+</div>	
 
   <!--Online User List-->
   <div class="col-md-4">
@@ -216,6 +222,15 @@
   </div>
   <!-- End Panel 2 -->	
 </div>
+<style type="text/css">
+	/* Set the size of the div element that contains the map */
+	#map {
+	  height: 400px;
+	  /* The height is 400 pixels */
+	  width: 95%;
+	  /* The width is the width of the web page */
+	}
+</style>
 
 @endsection
 <div id="popover" class="pop-over"></div>
@@ -229,4 +244,25 @@ $(window).load(function() {
    $(".chat_area").stop().animate({ scrollTop: $(".chat_area")[0].scrollHeight}, 500);
 });
 </script>
+<script>
+      // Initialize and add the map
+      function initMap() {
+        // The location of Uluru
+        const uluru = { lat: -25.344, lng: 131.036 };
+        // The map, centered at Uluru
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 4,
+          center: uluru,
+        });
+        // The marker, positioned at Uluru
+        const marker = new google.maps.Marker({
+          position: uluru,
+          map: map,
+        });
+      }
+    </script>
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjIi2xqlo8dq22KAmU-Vo3ZBrrQNGaZe8&callback=initMap&libraries=&v=weekly"
+      async
+    ></script>
 @endsection

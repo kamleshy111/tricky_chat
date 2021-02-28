@@ -264,5 +264,33 @@ class GuestController extends Controller
 		return response()->json(['result'=>'success', 'data'=>$result]);
 
 	}
+
+	/**
+	* save drop card entry
+	**/
+
+	public function save_drop_card_entry(Request $request)
+	{
+		//Save to database first
+		$validator = Validator::make($request->all(), [
+			'email' => 'required',
+			'message' => 'required'
+		]);
+		
+		if ($validator->fails()) {
+			if($request->ajax()){ 
+			    return response()->json(['result'=>'error','message'=>$validator->errors()->all()]);
+			}		
+		}
+
+		//save drop card message
+		$guest = Guest::where('email',$request->input("email"))->first();
+		if (!empty($guest)) {
+			$guest = new Guest();
+		    $guest->drop_card_message = $request->input("email");
+		    $guest->drop_card_entry = 1;
+	        $guest->save();
+		}
+	}
 	
 }

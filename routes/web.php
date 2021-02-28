@@ -103,5 +103,5 @@ Route::post('guest/send_offline_message', 'GuestController@send_offline_message'
 Route::get('guest/get_messages/{last_id?}', 'GuestController@get_messages');
 Route::get('guest/end_chat', 'GuestController@end_chat');
 
-Route::get('operator/status/{operator_id?}/{department_id?}', 'GuestController@get_operator_status');
+Route::get('operator/status/{operator_id?}/{department_id?}/{guest_name?}/{guest_email?}', 'GuestController@get_operator_status');
 

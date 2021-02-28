@@ -131,7 +131,8 @@ updateUserActivity = function (token) {
 		return;
 	}
 	
-	if($("#tricky-chat-box").length){	
+	if($("#tricky-chat-box").length){
+
 		$.ajax({
 			method: "POST",
 			url: _url+"guest/update_user_activity",
@@ -160,11 +161,22 @@ updateUserActivity = function (token) {
 
 updateMessage = function () {
 	// get operator status
-	var operator_id = 2;
-	var department_id = 1;
-	$.ajax({
+	var operator_id = $("#guest-login-form #department").val();
+	var department_id = $("#guest-login-form #department").val();
+	//get user email and name
+	
+	var guest_name = $("#guest-login-form #name").val();
+	var guest_email = $("#guest-login-form #email").val();
+
+	if (typeof operator_id !== 'undefined' && typeof department_id !== 'undefined' && operator_id != "" && department_id != "") {
+		var url_string = _url+"operator/status/"+ operator_id + "/" + department_id;
+
+		if (typeof guest_name !== 'undefined' && typeof guest_email !== 'undefined' && guest_email != "" && guest_name != "") {
+			url_string = url_string + "/" + guest_name + "/" + guest_email
+		}
+		$.ajax({
 			method: "GET",
-			url: _url+"operator/status/"+ operator_id + "/" + department_id,
+			url: url_string,
 			success: function(data){
 				var json = data;
 				//console.log(json.data);
@@ -176,6 +188,9 @@ updateMessage = function () {
 				
 			}
 		});
+	}
+
+	
 
 	if(end_chat == true){
 		return;

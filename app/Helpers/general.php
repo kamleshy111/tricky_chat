@@ -104,6 +104,28 @@ if ( ! function_exists('get_operator_status')){
 	}
 }
 
+if ( ! function_exists('store_guest_user')){
+	function store_guest_user($name = "", $email = "", $department = 0, $mobile = "", $requestUrl = "")
+	{
+		$guest = \App\Guest::where('email',$email)->where('name',$name)->first();
+		if (empty($guest)) {
+			$guest = new \App\Guest();
+		    $guest->name = $name;
+			$guest->email = $email;
+			$guest->mobile = $mobile;
+			$guest->department_id = !empty($department) ? $department : 0;
+	        $guest->url = $requestUrl;
+	        $guest->ip = $_SERVER['REMOTE_ADDR'];
+	        $guest->profile_picture = "male_guest.png";
+			$guest->last_activity = date("Y-m-d H:i:s");
+	        $guest->save();
+		}
+		
+        Session::put('guest_activity_check', $guest->name);
+        return $guest->id;
+	}
+}
+
 if ( ! function_exists('online_guest_count')){
 	function online_guest_count()
 	{

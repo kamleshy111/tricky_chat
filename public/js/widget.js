@@ -133,7 +133,7 @@ updateUserActivity = function (token) {
 		return;
 	}
 	
-	if($("#tricky-chat-box").length){	
+	if($("#tricky-chat-box").length){
 		$.ajax({
 			method: "POST",
 			url: _url+"guest/update_user_activity",

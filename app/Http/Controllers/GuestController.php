@@ -45,20 +45,16 @@ class GuestController extends Controller
     public function store_guest_user(Request $request)
     {	
 	    date_default_timezone_set(get_option('timezone'));
-        $guest = new Guest();
-	    $guest->name = $request->input('name');
-		$guest->email = $request->input('email');
-		$guest->mobile = $request->input('mobile') !="" ? $request->input('mobile') : '';
-		$guest->department_id = $request->input('department') !="" ? $request->input('department') : 0;
-        $guest->url = $request->input('url');
-        $guest->ip = $_SERVER['REMOTE_ADDR'];
-        $guest->profile_picture = "male_guest.png";
-		$guest->last_activity = date("Y-m-d H:i:s");
-        $guest->save();
+        $name = $request->input('name');
+		$email = $request->input('email');
+		$mobile = $request->input('mobile') !="" ? $request->input('mobile') : '';
+		$department_id = $request->input('department') !="" ? $request->input('department') : 0;
+        $requestUrl = $request->input('url');
+        $guest_id = store_guest_user($name, $email, $department_id, $mobile, $requestUrl);
 		
 		//Store Chat Request
 		$chat_request = new ChatRequest();
-		$chat_request->guest_id = $guest->id;
+		$chat_request->guest_id = $guest_id;
 		$chat_request->operator_id = NULL;
 		$chat_request->status = "chat_request";  //chat_request - chat_start - chat_end
 		$chat_request->save();
@@ -66,16 +62,16 @@ class GuestController extends Controller
 		//Send Message
 		$message = new Message();
 	    $message->chat_request_id = $chat_request->id;
-	    $message->message = $guest->name." "._lang('has started chat conversation');
+	    $message->message = $name." "._lang('has started chat conversation');
 	    $message->status = 0;
 	    $message->sender = "guest";
 	    $message->receiver = "operator";
 	    $message->save();
 		
 		//Set Session
-		$request->session()->put('guest_id', $guest->id);
+		$request->session()->put('guest_id', $guest_id);
 		$request->session()->put('chat_request_id', $chat_request->id);
-		$request->session()->put('guest_name', $guest->name);
+		$request->session()->put('guest_name', $name);
         
 		return redirect($_SERVER['HTTP_REFERER']);       
    }
@@ -106,7 +102,7 @@ class GuestController extends Controller
    }
    
     public function get_messages(Request $request,$last_id=0){
-	   \DB::beginTransaction();
+      \DB::beginTransaction();
 	   $messages = Message::where("chat_request_id",$request->session()->get('chat_request_id'))
 	                       ->where("id",">",$last_id)->get();
 	
@@ -252,11 +248,19 @@ class GuestController extends Controller
 	* get the status base on operator id and department id
 	*/
 
-	public function get_operator_status(Request $request, $operator_id=0, $department_id=0)
+	public function get_operator_status(Request $request, $operator_id=0, $department_id=0, $guest_name="", $guest_email="")
 	{
 		$userId = $operator_id;
 		$department = $department_id;
+		$guest_activity_check = $request->session()->get('guest_activity_check');
+
+		//update guest/user activity
+		if (!empty($guest_name) && !empty($guest_email) && (empty($guest_activity_check) || $guest_activity_check != $guest_name)) {
+			store_guest_user($guest_name, $guest_email, $department_id);
+		}
+		
 		$result = get_operator_status($userId, $department);
+
 		return response()->json(['result'=>'success', 'data'=>$result]);
 
 	}

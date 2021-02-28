@@ -176,7 +176,7 @@
 					  @endif
 					  <div class="form-group">
 						<label for="name">{{ _lang('Name') }}</label>
-						<input type="text" name="name" class="form-control" id="name" required>
+						<input type="text" name="name" class="form-control" id="name" required value="ramu">
 					  </div>
 					  <input type="hidden" name="url" value="{{ $_GET['url'] }}">
 					  
@@ -189,7 +189,7 @@
 					  
 					  <div class="form-group">
 						<label for="email">{{ _lang('Email') }}</label>
-						<input type="email" name="email" class="form-control" id="email" required>
+						<input type="email" name="email" class="form-control" id="email" required value="ramukamlesh@gmail.com">
 					  </div>
 					  <button type="submit" class="btn btn-success btn-start-chat btn-block">{{ _lang('Start Chat') }}</button>
 					</form>
@@ -250,7 +250,7 @@
 	
 	setInterval(function(){ 
 		updateMessage();
-	}, {{ get_option('chatting_refresh_rate') }}000);
+	}, 5000);
 	
 	function playSound(){
 		if(localStorage.getItem("mute") !="yes"){

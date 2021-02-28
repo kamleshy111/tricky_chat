@@ -13,3 +13,5 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('guest/save-drop-card', 'GuestController@save_drop_card_entry');
+

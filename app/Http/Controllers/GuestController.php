@@ -278,19 +278,19 @@ class GuestController extends Controller
 		]);
 		
 		if ($validator->fails()) {
-			if($request->ajax()){ 
-			    return response()->json(['result'=>'error','message'=>$validator->errors()->all()]);
-			}		
+			 return response()->json(['result'=>'error','message'=>$validator->errors()->all()]);
 		}
 
 		//save drop card message
 		$guest = Guest::where('email',$request->input("email"))->first();
 		if (!empty($guest)) {
 			$guest = new Guest();
-		    $guest->drop_card_message = $request->input("email");
+		    $guest->drop_card_entry_message = $request->input("message");
 		    $guest->drop_card_entry = 1;
 	        $guest->save();
+	        return response()->json(['result'=>'success','message'=> "you has been successfully added."]);
 		}
+		return response()->json(['result'=>'error','message'=> "Visitor not found."]);
 	}
 	
 }

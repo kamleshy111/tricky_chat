@@ -21,9 +21,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $total_visiter = ChatRequest::join("guests","guests.id","chat_requests.guest_id")
-                                       ->leftJoin("users","users.id","chat_requests.operator_id")->get()->count();
-         $total_visiter_list = ChatRequest::join("guests","guests.id","chat_requests.guest_id")->select("guests.*")
+        $total_visiter = Guest::get()->count();
+        $total_visiter_list = ChatRequest::join("guests","guests.id","chat_requests.guest_id")->select("guests.*")
                                        ->leftJoin("users","users.id","chat_requests.operator_id")->get();
                                         
         $total_online_visiter = online_guest_count();
